@@ -657,3 +657,195 @@ class WWZ:
         print('\rFinished in', t_used)
 
         return True
+
+    #--------------------------------------------------------------------------
+    def _find_peaks(self, x, y, threshold, sampling=10):
+        """Find peaks above a given threshold along a 1d-signal y(x).
+
+        Parameters
+        ----------
+        x : numpy.ndarray
+            Positional data of the signal, e.g. frequency or period.
+        y : numpy.ndarray
+            Signal, e.g. WWZ, WWA, or p-value along one time bin.
+        threshold : float
+            Defines the noise level. Only signals above this threshold are
+            detected.
+        sampling : int
+            The interpolated signal is evalued at n times the sampling of the
+            original data, where n is set by this number.
+
+        Returns
+        -------
+        peak_x : list
+            Peak positions.
+        peak_y : list
+            Peak signal strenghts.
+
+        Notes
+        -----
+        This method uses spline interpolation to improve the estimation of the
+        peak position and signal. Multiple peaks are identified recursively
+        starting with the strongest peak.
+        """
+
+        if np.all(y < threshold):
+            return [], []
+
+        # the spline fit requires an increasing order of x,
+        # reverse order, if x is decreasing:
+        if x.size > 1 and x[0] > x[1]:
+            x = x[::-1]
+            y = y[::-1]
+
+        # spline interpolation:
+        tck = splrep(x, y, s=0)
+        n = x.size * int(sampling)
+        x_interp = np.linspace(x[0], x[-1], n)
+        y_interp = splev(x_interp, tck)
+        y_der1 = splev(x_interp, tck, der=1)
+
+        # identify peak:
+        i = np.argmax(y_interp)
+        f = interp1d(y_der1[i-1:i+2], x_interp[i-1:i+2])
+        peak_x = float(f(0))
+        peak_y = float(splev(peak_x, tck))
+
+        # find left peak edge:
+        i = np.argmax(y)
+        peak_max = peak_y
+        n = x.size
+        for n in range(i+1, x.size):
+            if y[n] < peak_max:
+                peak_max = y[n]
+            else:
+                break
+
+        # find right peak edge:
+        peak_max = peak_y
+        m = 0
+        for m in range(i-1, 0, -1):
+            if y[m] < peak_max:
+                peak_max = y[m]
+            else:
+                break
+
+        peak_x = [peak_x]
+        peak_y = [peak_y]
+
+        # recursion on left part:
+        if m > 1 and np.any(y[:m] > threshold):
+            peak_x_l, peak_y_l = self._find_peaks(
+                    x[:m], y[:m], threshold, sampling=sampling)
+            peak_x = peak_x_l + peak_x
+            peak_y = peak_y_l + peak_y
+
+        # recursion on right part:
+        if n < x.size-1 and np.any(y[n:] > threshold):
+            peak_x_r, peak_y_r = self._find_peaks(
+                    x[n:], y[n:], threshold, sampling=sampling)
+            peak_x = peak_x + peak_x_r
+            peak_y = peak_y + peak_y_r
+
+        return peak_x, peak_y
+
+    #--------------------------------------------------------------------------
+    def find_peaks(
+            self, signal, threshold, sampling=10, period_space=None,
+            verbose=True):
+        """Find peaks along frequency/period in a given signal for all time
+        bins.
+
+        Parameters
+        ----------
+        signal : string
+            Select 'wwz' or 'wwa'.
+        threshold : float
+            Defines the noise level. Only signals above this threshold are
+            detected.
+        sampling : int
+            The interpolated signal is evalued at n times the sampling of the
+            original data, where n is set by this number.
+        verbose : bool, optional
+            Turns printing of information on or off. The default is True.
+
+        Raises
+        ------
+        ValueError
+            Raised when 'signal' is not set to one of the allow values.
+
+        Returns
+        -------
+        peak_tau : numpy.ndarray
+            Time bins with detected signal above the threshold.
+        peak_freq : numpy.ndarray
+            Peak position, i.e. either frequency or period, depending on
+            whether
+            peak_ : numpy.ndarray
+
+        Notes
+        -----
+        This method iterates through all time bins. The peak identification is
+        implemented in the helper method self._find_peak().
+
+        TBD
+        ----
+        Analysis of the p-values is currently turned off. The current peak
+        location algorith does not work with flat p-value curves, due to an
+        insufficient number of simulations.
+        """
+
+        # TODO: p-value analysis deactivated because it is running into bugs.
+
+        peak_tau = []
+        peak_pos = []
+        peak_signal = []
+
+        # select signal for analysis:
+        if signal not in ['wwa', 'wwz']:
+            raise ValueError(
+                    "For 'signal' select 'wwz' or 'wwa'.")
+        y = eval(f'self.{signal}')
+
+        # invert p-values:
+        if signal.find('pval') > -1:
+            y = 1. - y
+
+            # check for correct threshold range:
+            if threshold > 1 or threshold < 0:
+                raise ValueError(
+                        "'threshold' needs to be between 0 and 1 for the "\
+                        " analysis of the p-values.")
+
+        # check for correct threshold range:
+        if threshold < 0:
+            raise ValueError("'threshold' needs to be larger than 0.")
+
+        if verbose:
+            print('Finding peaks in {0:s}.'.format(signal.upper()))
+
+        if (period_space is None and self.linear_period) or period_space:
+            x = 1. / self.freq[::-1]
+            y = y.transpose()[::-1].transpose()
+            if verbose:
+                print('Analysis in period space.')
+        else:
+            x = self.freq
+            print('Analysis in frequency space.')
+
+        for i, t in enumerate(self.tau):
+            peak_x, peak_y = self._find_peaks(
+                    x, y[i], threshold, sampling=sampling)
+            for px, py in zip(peak_x, peak_y):
+                peak_tau.append(t)
+                peak_pos.append(px)
+                peak_signal.append(py)
+
+        peak_tau = np.array(peak_tau)
+        peak_pos = np.array(peak_pos)
+        peak_signal = np.array(peak_signal)
+
+        if verbose:
+            print('Done.')
+
+        return peak_tau, peak_pos, peak_signal
