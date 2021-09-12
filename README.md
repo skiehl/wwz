@@ -4,7 +4,7 @@ A python3 weighted wavelet z-transform (WWZ) analysis package.
 ## Requirements
 
 This script uses the following standard python packages:
-+ datetimme
++ datetime
 + pickle
 + sys
 
@@ -36,5 +36,6 @@ tex2bib is licensed under the BSD 3-Clause License - see the
 ## Alternatives
 
 Some other python implementations of the WWZ method are:
-[libwwz](https://pypi.org/project/libwwz/) -
-[eaydin/WWZ](https://github.com/eaydin/WWZ)
+
++ [libwwz](https://pypi.org/project/libwwz/)
++ [eaydin/WWZ](https://github.com/eaydin/WWZ)
