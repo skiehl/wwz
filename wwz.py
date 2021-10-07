@@ -689,7 +689,7 @@ class WWZ:
         starting with the strongest peak.
         """
 
-        if np.all(y < threshold):
+        if np.all(y < threshold) or x.size <= 3:
             return [], []
 
         # the spline fit requires an increasing order of x,
@@ -707,6 +707,12 @@ class WWZ:
 
         # identify peak:
         i = np.argmax(y_interp)
+
+        # maximum at data edge, no peak found:
+        if i + 1 == n or i == 0:
+            return [], []
+
+        # interpolate peak position:
         f = interp1d(y_der1[i-1:i+2], x_interp[i-1:i+2])
         peak_x = float(f(0))
         peak_y = float(splev(peak_x, tck))
@@ -751,7 +757,7 @@ class WWZ:
 
     #--------------------------------------------------------------------------
     def find_peaks(
-            self, signal, threshold, sampling=10, period_space=None,
+            self, signal, quantile, sampling=10, period_space=None,
             verbose=True):
         """Find peaks along frequency/period in a given signal for all time
         bins.
@@ -760,9 +766,9 @@ class WWZ:
         ----------
         signal : string
             Select 'wwz' or 'wwa'.
-        threshold : float
-            Defines the noise level. Only signals above this threshold are
-            detected.
+        quantile : float
+            Defines the noise level. Only signals above the threshold are
+            detected that corresponds to the set quantile.
         sampling : int
             The interpolated signal is evalued at n times the sampling of the
             original data, where n is set by this number.
@@ -811,18 +817,12 @@ class WWZ:
         if signal.find('pval') > -1:
             y = 1. - y
 
-            # check for correct threshold range:
-            if threshold > 1 or threshold < 0:
-                raise ValueError(
-                        "'threshold' needs to be between 0 and 1 for the "\
-                        " analysis of the p-values.")
-
-        # check for correct threshold range:
-        if threshold < 0:
-            raise ValueError("'threshold' needs to be larger than 0.")
+        # set threshold for signal detection:
+        threshold = np.quantile(y, quantile)
 
         if verbose:
             print('Finding peaks in {0:s}.'.format(signal.upper()))
+            print(f'Threshold set to: {threshold}')
 
         if (period_space is None and self.linear_period) or period_space:
             x = 1. / self.freq[::-1]
@@ -831,7 +831,8 @@ class WWZ:
                 print('Analysis in period space.')
         else:
             x = self.freq
-            print('Analysis in frequency space.')
+            if verbose:
+                print('Analysis in frequency space.')
 
         for i, t in enumerate(self.tau):
             peak_x, peak_y = self._find_peaks(
@@ -849,3 +850,5 @@ class WWZ:
             print('Done.')
 
         return peak_tau, peak_pos, peak_signal
+
+#==============================================================================
