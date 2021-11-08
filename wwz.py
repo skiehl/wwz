@@ -12,7 +12,7 @@ import sys
 __author__ = "Sebastian Kiehlmann"
 __credits__ = ["Sebastian Kiehlmann", "Walther Max-Moerbeck", "Oliver King"]
 __license__ = "GPL"
-__version__ = "0.2"
+__version__ = "1.0"
 __maintainer__ = "Sebastian Kiehlmann"
 __email__ = "skiehlmann@mail.de"
 __status__ = "Production"

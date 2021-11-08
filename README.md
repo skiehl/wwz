@@ -12,6 +12,10 @@ This script uses the following python packages:
 + numpy
 + scipy
 
+The plotting script additionally uses:
++ matplotlib
++ os
+
 ## Getting Started
 
 Get the python script:
@@ -21,7 +25,8 @@ Get the python script:
 ## Usage
 
 Usage of the package is demonstrated in the jupyter notebook
-`Documentation.ipynb`
+`Documentation.ipynb`.
+A complete code documentation is given in `html/`.
 
 ## References
 

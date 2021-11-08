@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.8.1" />
-<title>wwz API documentation</title>
+<title>wwz.wwz API documentation</title>
 <meta name="description" content="A class for weighted wavelet z-transform analysis." />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
@@ -17,7 +17,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>wwz</code></h1>
+<h1 class="title">Module <code>wwz.wwz</code></h1>
 </header>
 <section id="section-intro">
 <p>A class for weighted wavelet z-transform analysis.</p>
@@ -39,7 +39,7 @@ import sys
 __author__ = &#34;Sebastian Kiehlmann&#34;
 __credits__ = [&#34;Sebastian Kiehlmann&#34;, &#34;Walther Max-Moerbeck&#34;, &#34;Oliver King&#34;]
 __license__ = &#34;GPL&#34;
-__version__ = &#34;0.2&#34;
+__version__ = &#34;1.0&#34;
 __maintainer__ = &#34;Sebastian Kiehlmann&#34;
 __email__ = &#34;skiehlmann@mail.de&#34;
 __status__ = &#34;Production&#34;
@@ -890,7 +890,7 @@ class WWZ:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="wwz.WWZ"><code class="flex name class">
+<dt id="wwz.wwz.WWZ"><code class="flex name class">
 <span>class <span class="ident">WWZ</span></span>
 <span>(</span><span>time=None, flux=None, flux_err=0)</span>
 </code></dt>
@@ -1747,7 +1747,7 @@ can be provided with the set_data() method.</p></div>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="wwz.WWZ.estimate_significance"><code class="name flex">
+<dt id="wwz.wwz.WWZ.estimate_significance"><code class="name flex">
 <span>def <span class="ident">estimate_significance</span></span>(<span>self, simulations, append=False)</span>
 </code></dt>
 <dd>
@@ -1863,7 +1863,7 @@ repetitions are discarded.</p></div>
     return True</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.find_peaks"><code class="name flex">
+<dt id="wwz.wwz.WWZ.find_peaks"><code class="name flex">
 <span>def <span class="ident">find_peaks</span></span>(<span>self, signal, quantile, sampling=10, period_space=None, verbose=True)</span>
 </code></dt>
 <dd>
@@ -2003,7 +2003,7 @@ insufficient number of simulations.</p></div>
     return peak_tau, peak_pos, peak_signal</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.get_freq"><code class="name flex">
+<dt id="wwz.wwz.WWZ.get_freq"><code class="name flex">
 <span>def <span class="ident">get_freq</span></span>(<span>self, p_min=None, p_max=None, n_bins=100, diff=None, linear_period=False, p_min_factor=4.0, p_max_factor=5.0)</span>
 </code></dt>
 <dd>
@@ -2159,7 +2159,7 @@ devided by this factor.</dd>
     return freq</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.get_period_lims"><code class="name flex">
+<dt id="wwz.wwz.WWZ.get_period_lims"><code class="name flex">
 <span>def <span class="ident">get_period_lims</span></span>(<span>self, p_min_factor=4.0, p_max_factor=5.0)</span>
 </code></dt>
 <dd>
@@ -2210,7 +2210,7 @@ devided by this factor.</dd>
     return p_min, p_max</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.get_tau"><code class="name flex">
+<dt id="wwz.wwz.WWZ.get_tau"><code class="name flex">
 <span>def <span class="ident">get_tau</span></span>(<span>self, t_min=None, t_max=None, n_div=8, n_bins=None, dtau=None)</span>
 </code></dt>
 <dd>
@@ -2313,7 +2313,7 @@ input to n_bins and n_div. The default is None.</dd>
     return tau</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.load"><code class="name flex">
+<dt id="wwz.wwz.WWZ.load"><code class="name flex">
 <span>def <span class="ident">load</span></span>(<span>self, filename)</span>
 </code></dt>
 <dd>
@@ -2350,7 +2350,7 @@ input to n_bins and n_div. The default is None.</dd>
         return pickle.load(f)</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.save"><code class="name flex">
+<dt id="wwz.wwz.WWZ.save"><code class="name flex">
 <span>def <span class="ident">save</span></span>(<span>self, filename)</span>
 </code></dt>
 <dd>
@@ -2383,7 +2383,7 @@ input to n_bins and n_div. The default is None.</dd>
         pickle.dump(self, f)</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.set_data"><code class="name flex">
+<dt id="wwz.wwz.WWZ.set_data"><code class="name flex">
 <span>def <span class="ident">set_data</span></span>(<span>self, time, flux, flux_err=0.0, verbose=True)</span>
 </code></dt>
 <dd>
@@ -2446,7 +2446,7 @@ results of an earlier analysis will be reset to None.</p></div>
         print(&#39;Data stored.&#39;)</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.set_freq"><code class="name flex">
+<dt id="wwz.wwz.WWZ.set_freq"><code class="name flex">
 <span>def <span class="ident">set_freq</span></span>(<span>self, freq, verbose=True)</span>
 </code></dt>
 <dd>
@@ -2500,7 +2500,7 @@ frequencies.</p></div>
         print(&#39;Frequencies set.&#39;)</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.set_tau"><code class="name flex">
+<dt id="wwz.wwz.WWZ.set_tau"><code class="name flex">
 <span>def <span class="ident">set_tau</span></span>(<span>self, tau, verbose=True)</span>
 </code></dt>
 <dd>
@@ -2550,7 +2550,7 @@ taus.</p></div>
         print(&#39;Tau (time points) set.&#39;)</code></pre>
 </details>
 </dd>
-<dt id="wwz.WWZ.transform"><code class="name flex">
+<dt id="wwz.wwz.WWZ.transform"><code class="name flex">
 <span>def <span class="ident">transform</span></span>(<span>self, c=0.012665147955292222, snr_weights=False, verbose=0)</span>
 </code></dt>
 <dd>
@@ -2748,22 +2748,27 @@ otherwise.</dd>
 <ul></ul>
 </div>
 <ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="wwz" href="index.html">wwz</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="wwz.WWZ" href="#wwz.WWZ">WWZ</a></code></h4>
+<h4><code><a title="wwz.wwz.WWZ" href="#wwz.wwz.WWZ">WWZ</a></code></h4>
 <ul class="">
-<li><code><a title="wwz.WWZ.estimate_significance" href="#wwz.WWZ.estimate_significance">estimate_significance</a></code></li>
-<li><code><a title="wwz.WWZ.find_peaks" href="#wwz.WWZ.find_peaks">find_peaks</a></code></li>
-<li><code><a title="wwz.WWZ.get_freq" href="#wwz.WWZ.get_freq">get_freq</a></code></li>
-<li><code><a title="wwz.WWZ.get_period_lims" href="#wwz.WWZ.get_period_lims">get_period_lims</a></code></li>
-<li><code><a title="wwz.WWZ.get_tau" href="#wwz.WWZ.get_tau">get_tau</a></code></li>
-<li><code><a title="wwz.WWZ.load" href="#wwz.WWZ.load">load</a></code></li>
-<li><code><a title="wwz.WWZ.save" href="#wwz.WWZ.save">save</a></code></li>
-<li><code><a title="wwz.WWZ.set_data" href="#wwz.WWZ.set_data">set_data</a></code></li>
-<li><code><a title="wwz.WWZ.set_freq" href="#wwz.WWZ.set_freq">set_freq</a></code></li>
-<li><code><a title="wwz.WWZ.set_tau" href="#wwz.WWZ.set_tau">set_tau</a></code></li>
-<li><code><a title="wwz.WWZ.transform" href="#wwz.WWZ.transform">transform</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.estimate_significance" href="#wwz.wwz.WWZ.estimate_significance">estimate_significance</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.find_peaks" href="#wwz.wwz.WWZ.find_peaks">find_peaks</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.get_freq" href="#wwz.wwz.WWZ.get_freq">get_freq</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.get_period_lims" href="#wwz.wwz.WWZ.get_period_lims">get_period_lims</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.get_tau" href="#wwz.wwz.WWZ.get_tau">get_tau</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.load" href="#wwz.wwz.WWZ.load">load</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.save" href="#wwz.wwz.WWZ.save">save</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.set_data" href="#wwz.wwz.WWZ.set_data">set_data</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.set_freq" href="#wwz.wwz.WWZ.set_freq">set_freq</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.set_tau" href="#wwz.wwz.WWZ.set_tau">set_tau</a></code></li>
+<li><code><a title="wwz.wwz.WWZ.transform" href="#wwz.wwz.WWZ.transform">transform</a></code></li>
 </ul>
 </li>
 </ul>
