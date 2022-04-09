@@ -13,7 +13,7 @@ import sys
 __author__ = "Sebastian Kiehlmann"
 __credits__ = ["Sebastian Kiehlmann"]
 __license__ = "GPL"
-__version__ = "1.0"
+__version__ = "1.1"
 __maintainer__ = "Sebastian Kiehlmann"
 __email__ = "skiehlmann@mail.de"
 __status__ = "Production"
@@ -338,10 +338,10 @@ class WWZPlotter:
         return ax2
 
     #--------------------------------------------------------------------------
-    def plot(self, select, statistic='mean', errorbars=True, xlabel=None,
-             ylabel=None, figsize=None, height_ratios=(2, 1),
-             width_ratios=(5, 1), kwargs_map={}, kwargs_map_avg={},
-             kwargs_data={}):
+    def plot(self, select, statistic='mean', errorbars=True,
+             peaks_quantile=None, xlabel=None, ylabel=None, figsize=None,
+             height_ratios=(2, 1), width_ratios=(5, 1), kwargs_map={},
+             kwargs_map_avg={}, kwargs_data={}, kwargs_peaks={}):
         """Plot the WWZ map, average, and data.
 
         Parameters
@@ -353,6 +353,10 @@ class WWZPlotter:
         errorbars : bool, optional
             If True errorbars are shown, if uncertainties were stored in the
             WWZ instance. The default is True.
+        peaks_quantile : float, optional
+            If not None, a ridge line along the peak position is shown.
+            peaks_quantile needs to be a float between 0 and 1. Only peaks in
+            the quantile above this threshold are shown. The default is None.
         xlabel : str, optional
             The x-axis description. If None is provided no label is printed.
             The default is None.
@@ -375,6 +379,9 @@ class WWZPlotter:
         kwargs_data : dict, optional
             Keyword arguments forwarded to plotting the data. The default is
             {}.
+        kwargs_peaks : dict, optional
+            Keyword arguments forwarded to plotting the peak ridge lines. The
+            default is {}.
 
         Returns
         -------
@@ -410,6 +417,12 @@ class WWZPlotter:
                 ax=ax_data, errorbars=errorbars, xlabel=xlabel, ylabel=ylabel,
                 **kwargs_data)
         ax_data.set_xlim(self.tmin, self.tmax)
+
+        # plot peaks:
+        if peaks_quantile:
+            peak_tau, peak_pos, peak_signal = self.wwz.find_peaks(
+                    select, peaks_quantile)
+            ax_map.plot(peak_tau, peak_pos, **kwargs_peaks)
 
         # add right axis labels:
         self.add_right_labels(ax_map_avg)
