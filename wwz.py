@@ -216,7 +216,7 @@ class WWZ:
             p_max = p_max_suggested
         elif p_max > p_max_suggested:
             print('WARNING: p_max is larger than the maximum time range',
-                  'of the data devided by {0}.\np_min '.format(p_max_factor),
+                  'of the data devided by {0}.\np_max '.format(p_max_factor),
                   'should not be larger than {0}.\n'.format(p_max_suggested))
 
         freq_min = 1. / p_max
