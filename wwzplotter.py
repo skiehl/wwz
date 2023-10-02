@@ -12,8 +12,7 @@ import sys
 
 __author__ = "Sebastian Kiehlmann"
 __credits__ = ["Sebastian Kiehlmann"]
-__license__ = "GPL"
-__version__ = "1.1"
+__license__ = "BSD"
 __maintainer__ = "Sebastian Kiehlmann"
 __email__ = "skiehlmann@mail.de"
 __status__ = "Production"
