@@ -35,8 +35,8 @@ The WWZ method was introduced by
 
 ## License
 
-tex2bib is licensed under the BSD 3-Clause License - see the
-[LICENSE](https://github.com/skiehl/tex2bib/blob/main/LICENSE) file.
+wwz is licensed under the BSD 3-Clause License - see the
+[LICENSE](https://github.com/skiehl/wwz/blob/main/LICENSE) file.
 
 ## Alternatives
 
