@@ -1,0 +1,20 @@
+cff-version: 1.1.0
+message: "Please cite the following works when using this software: https://ui.adsabs.harvard.edu/abs/2023ascl.soft10003K"
+authors:
+- family-names: Kiehlmann
+  given-names: Sebastian
+  orcid: "https://orcid.org/0000-0001-6314-9177"
+- family-names: Max-Moerbeck
+  given-names: Walter
+  orcid: "https://orcid.org/0000-0002-5491-5244"
+- family-names: King
+  given-names: Oliver
+title: "wwz: Weighted wavelet z-transform code"
+version: 0
+date-released: 2021-09-12
+identifiers:
+ - type: "ascl-id"
+   value: "2310.003"
+ - type: "bibcode"
+   value: "2023ascl.soft10003K"
+abstract: "wwz provides a python3 implementation of the Foster weighted wavelet z-transform, a wavelet-based method for periodicity analysis of unevenly sampled data."
